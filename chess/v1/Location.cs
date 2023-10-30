@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace chess
+namespace chess.v1
 {
     public class Location
     {
+        /// <summary>
+        /// stored as 0 based integers i.e. between 0-7
+        /// </summary>
         public int Rank;
         public int File;
 
         /// <summary>
         /// offset is stored as 6 bits
-        /// the first 3 are the File, the last 3 are the Rank
+        /// the first 3 are the Rank, the last 3 are the File
         /// </summary>
-        /// <param name="offset"></param>
         public Location(int offset)
         {
-            File = offset >> 3;
-            Rank = offset % 8;
+            Rank = offset >> 3;
+            File = offset % 8;
         }
 
         public int ToOffset()
         {
-            return (File << 3) + Rank;
+            return (Rank << 3) + File;
         }
     }
 }

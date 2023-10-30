@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Text;
 
-namespace chess
+namespace chess.v1
 {
     public class Board
     {
@@ -62,6 +63,18 @@ namespace chess
                     square++;
                 }
             }
+
+            RemapPieces();
+        }
+
+        public IEnumerable<T> PiecesOfType<T>(PieceType type) where T : Piece
+        {
+            return Pieces.Where(x => x.Type == type).Cast<T>();
+        }
+
+        public T FirstPieceOfType<T>(PieceType type) where T : Piece
+        {
+            return (T)Pieces.FirstOrDefault(x => x.Type == type);
         }
 
         /// <summary>
@@ -69,6 +82,11 @@ namespace chess
         /// </summary>
         public void RemapPieces()
         {
+            for (int i = 0; i < 64; i++)
+            {
+                OffsetToSquare[i] = new Square(i);
+            }
+
             foreach(Piece piece in this.Pieces)
             {
                 piece.Remap();
